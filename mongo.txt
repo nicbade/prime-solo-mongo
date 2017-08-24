@@ -6,9 +6,9 @@
 
 // 2. Insert at least 3 documents that represent orders. IMPORTANT: See section below for fields. 
 //Order dates should be: 2017-02-03, 2017-04-04, 2017-01-02
-> db.orders.insert({orderDate: new Date('2017-02-03'), orderTotal: 53.93, lineItems: []});
-> db.orders.insert({orderDate: new Date('2017-04-04'), orderTotal: 72.34, lineItems: []});
-> db.orders.insert({orderDate: new Date('2017-01-02'), orderTotal: 3242.32, lineItems: []});
+> db.orders.insert({orderDate: new Date('2017-01-02'), orderTotal: 4324.23, lineItems: [{unitPrice: 5, quantity: 4, productName: 'Peaches'}]});
+>  db.orders.insert({orderDate: new Date('2017-04-04'), orderTotal: 234, lineItems: [{unitPrice: 23, quantity: 8, productName: 'Pumpkins'}]});
+>  db.orders.insert({orderDate: new Date('2017-02-03'), orderTotal: 75, lineItems: [{unitPrice: 1, quantity: 1234, productName: 'Plums'}]});
 
 // 3. Find all orders and make them look pretty.
 > db.orders.find().pretty();
@@ -19,9 +19,14 @@ db.orders.find({orderDate: {$gt: new Date('2017-01-31')}});
 
 // 5. Change the orderTotal from 2/3/2017 to 63 dollars (you do NOT have to ensure the lineItems' unitPrice * quantity add 
 //up to the orderTotal)
+> db.orders.update({_id: ObjectId("599effedf71ee4133c84a63b")}, {$set: {orderTotal: 63}});
 
 // 6. Add another lineItem to the order from 4/4/2017
+> db.orders.update({_id: ObjectId("599effcaf71ee4133c84a63a")}, {$push: {lineItems: {unitPrice: 38, quantity: 4, productName: 'pears'}}});
 
 // 7. Change the first lineItem in the order from 1/2/2017 to be for 2 'transistor radio's
+dv
+> db.orders.update({_id: ObjectId("599eff86f71ee4133c84a639")}, {$set: {'lineItem.0': {unitPrice: 343, quantity: 2, productName: 'Transistor Radio'}}});
 
-// 8. Find orders with lineItems that have a quantity that is less than 10, but greater than 2. You will have to research $and
+// 8. Find orders with lineItems that have a quantity that is less than 10, but greater than 2. You will have to research $andt
+> db.orders.find({$and: [{'lineItems.quantity': {$gt:2}}, {'lineItems.quantity': {$lt:10}}]});
